@@ -1,4 +1,4 @@
-# Spiders
+# Flask web app for keeping records or your spiders
 Flask app to records data about your tarantulas. You are able to record data as feeding schedule, molts and you can add images of your tarantula with notes. All of that can be also modified in the case of entering mistaken data. Web app also enables you to add your specific species of tarantulas (species are not hard coded and you are supposedto add them yourself).
 
 
