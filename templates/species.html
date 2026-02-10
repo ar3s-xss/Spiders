@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Add Species</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>Add Species</h1>
+        <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">🕷️Spiders</a></li>
+            <li><a href="{{ url_for('species') }}">🌍Species</a></li>
+            <li><a href="{{ url_for('add') }}">🕸️Add Spider</a></li>
+            </ul>
+            </nav>
+      </div>
+    </header>
+    
+    <main class="container">
+        
+        <section class="panel">
+            <h2>SPECIES LIST</h2>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Science Name</th>
+                    <th>Common Name</th>
+                    <th>World</th>
+                    <th>World Type</th>
+                    <th>Actions</th>
+                </tr>
+            {% for specie in species %}
+                <tr>
+                    <td>{{ specie[0] }}</td>
+                    <td>{{ specie[1] }}</td>
+                    <td>{{ specie[2] }}</td>
+                    <td>{{ specie[3] }}</td>
+                    <td>{{ specie[4] }}</td>
+                    <td>
+                       <form action="{{ url_for('edit_specie', specie_id=specie[0]) }}" method="get" style="display:inline">
+                        <button type="submit" class="btn" style="color:blue">📖 Edit</button>
+                      </form>
+                      <form action="{{ url_for('delete_specie', specie_id=specie[0]) }}" method="post" style="display:inline">
+                        <button type="submit" class="btn" style="color:red">❌ Delete</button>
+                      </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </section>
+      <section class="panel">
+  <h2>{{ 'Edit Species' if edit_species else 'Add Species' }}</h2>
+
+  {% if error %}
+    <p class="error">{{ error }}</p>
+  {% endif %}
+
+  <form method="POST"
+        action="{% if edit_species %}
+                  {{ url_for('update_specie', specie_id=edit_species.id) }}
+                {% else %}
+                  {{ url_for('species') }}
+                {% endif %}">
+
+    <label>Science Name:</label>
+    <input type="text" name="science_name"
+           value="{{ edit_species.science_name if edit_species else '' }}"
+           required>
+
+    <label>Common Name:</label>
+    <input type="text" name="common_name"
+           value="{{ edit_species.common_name if edit_species else '' }}" required>
+
+    <fieldset class="radio-group">
+  <legend>World</legend>
+
+  <label>
+    <input type="radio" name="world" value="New World"
+      {% if edit_species and edit_species.world == 'New World' %}checked{% endif %}
+      {% if not edit_species %}checked{% endif %}>
+    New World
+  </label>
+
+  <label>
+    <input type="radio" name="world" value="Old World"
+      {% if edit_species and edit_species.world == 'Old World' %}checked{% endif %}>
+    Old World
+  </label>
+</fieldset>
+
+    <fieldset class="radio-group">
+  <legend>World Type</legend>
+
+  {% for t in ['Terrestrial', 'Arboreal', 'Fossorial'] %}
+    <label>
+      <input type="radio" name="world_type" value="{{ t }}"
+        {% if edit_species and edit_species.world_type == t %}checked{% endif %}>
+      {{ t }}
+    </label>
+  {% endfor %}
+</fieldset>
+
+    <button type="submit" class="btn">
+      {{ 'Save Changes' if edit_species else 'Add Species' }}
+    </button>
+
+    {% if edit_species %}
+      <button type="submit" href="{{ url_for('species') }}" class="btn">Cancel</button>
+    {% endif %}
+  </form>
+</section>
+
+    </main>
+     <footer class="site-footer container">
+  <small>
+    Author:
+    <a href="https://github.com/ar3s-xss"
+       target="_blank"
+       rel="noopener noreferrer">
+       ar3s-xss
+    </a>
+  </small>
+</footer>
+
+  </body>
+</html>

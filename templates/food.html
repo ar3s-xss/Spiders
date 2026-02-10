@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Tarantulas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>Food</h1>
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">🕷️ Spiders</a></li>
+            <li><a href="{{ url_for('species') }}">🌍 Species</a></li>
+            <li><a href="{{ url_for('add') }}">🕸️ Add Spider</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="panel">
+        <h2>{{ 'Edit Feeding' if food else 'Add Feeding' }}</h2>
+
+<form method="post"
+      action="{% if food %}
+                {{ url_for('edit_food', spider_id=spider_id, food_id=food.id) }}
+              {% else %}
+                {{ url_for('add_food', spider_id=spider_id) }}
+              {% endif %}">
+
+  <label>What?</label>
+  <input type="text" name="food_type"
+         value="{{ food.food if food else '' }}"
+         required>
+
+  <label>How many?</label>
+  <input type="number" name="food_count" min="1" max="10"
+         value="{{ food.count if food else 1 }}"
+         required>
+
+  <label>When?</label>
+  <input type="date" name="date"
+         value="{{ food.date if food else '' }}"
+         required>
+
+  <div class="form-actions">
+    <button type="submit" class="btn">
+      {{ '💾 Save Changes' if food else '💾 Add Food' }}
+    </button>
+
+    <a href="{{ url_for('spider_detail', spider_id=spider_id) }}"
+       class="btn">
+       ❌ Cancel
+    </a>
+  </div>
+</form>
+
+        
+</section>
+
+        
+      
+    </main>
+
+   <footer class="site-footer container">
+  <small>
+    Author:
+    <a href="https://github.com/ar3s-xss"
+       target="_blank"
+       rel="noopener noreferrer">
+       ar3s-xss
+    </a>
+  </small>
+</footer>
+
+  </body>
+</html>

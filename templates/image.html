@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Tarantulas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>Food</h1>
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">🕷️ Spiders</a></li>
+            <li><a href="{{ url_for('species') }}">🌍 Species</a></li>
+            <li><a href="{{ url_for('add') }}">🕸️ Add Spider</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="panel">
+        <h2>{{ 'Edit Feeding' if food else 'Add Feeding' }}</h2>
+
+<form method="post" enctype="multipart/form-data"
+      action="{% if image %}
+                {{ url_for('edit_image', spider_id=spider_id, image_id=image.id) }}
+              {% else %}
+                {{ url_for('upload_image', spider_id=spider_id) }}
+              {% endif %}">
+
+  {% if image %}
+    <p>Current image:</p>
+    <img src="{{ url_for('static', filename='images/spiders/' ~ image.image_path) }}"
+         class="spider-img"
+         style="max-width:200px">
+  {% endif %}
+
+  <label>Replace image (optional)</label>
+  <input type="file" name="image_path" accept="image/*">
+
+  <label>Note</label>
+  <input type="text" name="note"
+         value="{{ image.note if image else '' }}"
+         required>
+
+  <div class="form-actions">
+    <button type="submit" class="btn">
+      {{ '💾 Save Changes' if image else '💾 Add Image' }}
+    </button>
+
+    <a href="{{ url_for('spider_detail', spider_id=spider_id) }}"
+       class="btn secondary">
+       ❌ Cancel
+    </a>
+  </div>
+</form>
+
+
+        
+</section>
+
+        
+      
+    </main>
+
+   <footer class="site-footer container">
+  <small>
+    Author:
+    <a href="https://github.com/ar3s-xss"
+       target="_blank"
+       rel="noopener noreferrer">
+       ar3s-xss
+    </a>
+  </small>
+</footer>
+
+  </body>
+</html>

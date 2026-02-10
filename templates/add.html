@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Add</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>Add spider</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">🕷️ Spiders</a></li>
+                <li><a href="{{ url_for('species') }}">🌍 Species</a></li>
+                <li><a href="{{ url_for('add') }}">🕸️ Add Spider</a></li>
+            </ul>
+            </nav>
+      </div>
+    </header>
+
+    <main class="container">
+        
+        </nav>
+      <section class="panel">
+        <form method="POST">
+          
+          <label for="name">Spider Name:</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="species_id">Species:</label>
+          <select id="species_id" name="species_id">
+            {% for species in species_list %}
+              <option value="{{ species[0] }}">{{ species[1] }} </option>
+            {% endfor %}
+            </select>
+            <fieldset class="radio-group">
+            <legend>Gender:</legend>
+            <label>
+              <input type="radio" name="gender" value="Unknown">
+              Unknown
+            </label>
+            <label>
+              <input type="radio" name="gender" value="Male">
+              Male
+            </label>
+            <label>
+              <input type="radio" name="gender" value="Female">
+              Female
+            </label>
+            </fieldset>
+            <button type="submit" class="btn">💾 Add Spider</button>
+        </form>
+      </section>
+    </main>
+    <footer class="site-footer container">
+  <small>
+    Author:
+    <a href="https://github.com/ar3s-xss"
+       target="_blank"
+       rel="noopener noreferrer">
+       ar3s-xss
+    </a>
+  </small>
+</footer>
+
+  </body>
+</html>

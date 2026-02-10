@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Edit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>Edit Spider</h1>
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">🕷️ Spiders</a></li>
+            <li><a href="{{ url_for('species') }}">🌍 Species</a></li>
+            <li><a href="{{ url_for('add') }}">🕸️ Add Spider</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+        
+      <section class="panel">
+        <form method="POST">
+  
+  <label>Spider Name</label>
+  <input type="text" name="name" value="{{ spider['name'] }}">
+
+  <label>Species</label>
+  <select name="species_id">
+    {% for sp in species_list %}
+      <option value="{{ sp['id'] }}"
+        {% if sp['id'] == spider['species_id'] %}selected{% endif %}>
+        {{ sp['science_name'] }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <fieldset class="radio-group">
+    <legend>Gender</legend>
+    <label><input type="radio" name="gender" value="Male" {% if spider['gender']=='Male' %}checked{% endif %}> Male</label>
+    <label><input type="radio" name="gender" value="Female" {% if spider['gender']=='Female' %}checked{% endif %}> Female</label>
+    <label><input type="radio" name="gender" value="Unknown" {% if spider['gender']=='Unknown' %}checked{% endif %}> Unknown</label>
+  </fieldset>
+
+  <div class="form-actions">
+    <button type="submit" class="btn">💾 Save</button>
+
+    <a href="{{ url_for('index') }}" class="btn secondary">
+      ❌ Cancel
+    </a>
+  </div>
+
+</form>
+
+      </section>
+    </main>
+    <footer class="site-footer container">
+  <small>
+    Author:
+    <a href="https://github.com/ar3s-xss"
+       target="_blank"
+       rel="noopener noreferrer">
+       ar3s-xss
+    </a>
+  </small>
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tarantulas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <h1>{{ spider.name }}</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">🕷️ Spiders</a></li>
+        <li><a href="{{ url_for('species') }}">🌍 Species</a></li>
+        <li><a href="{{ url_for('add') }}">🕸️ Add Spider</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- DETAILS -->
+  <section class="panel">
+    <h2>Details</h2>
+    <ul>
+      <li><strong>Name:</strong> {{ spider.name }}</li>
+      <li><strong>Species:</strong> {{ spider.science_name }}</li>
+    </ul>
+  </section>
+
+  <!-- FEEDING -->
+  <section class="panel">
+    <h2>Feeding History</h2>
+    <a href="{{ url_for('add_food', spider_id=spider.id) }}" class="btn">🐞 Add</a>
+
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Food</th>
+        <th>Quantity</th>
+        <th></th>
+        <th></th>
+      </tr>
+      {% for food in food_history %}
+      <tr>
+        <td>{{ food.date }}</td>
+        <td>{{ food.food }}</td>
+        <td>{{ food.count }}</td>
+        <td>
+          <a href="{{ url_for('edit_food', spider_id=spider.id, food_id=food.id) }}" class="btn" style="color: blue;">📖 Edit</a>
+        </td>
+        <td>
+          <form action="{{ url_for('delete_food', spider_id=spider.id, food_id=food.id) }}" method="post">
+            <button class="btn danger"
+                    onclick="return confirm('Delete feeding?');">🗑 Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+
+  <!-- MOLTS -->
+  <section class="panel">
+    <h2>Molts</h2>
+    <a href="{{ url_for('add_molt', spider_id=spider.id) }}" class="btn">🦴 Add</a>
+
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Note</th>
+        <th></th>
+        <th></th>
+      </tr>
+      {% for molt in molts %}
+      <tr>
+        <td>{{ molt.date }}</td>
+        <td>{{ molt.note }}</td>
+        <td>
+          <a href="{{ url_for('edit_molt', spider_id=spider.id, molt_id=molt.id) }}" class="btn" style="color: blue;">📖 Edit</a>
+        </td>
+        <td>
+          <form action="{{ url_for('delete_molt', spider_id=spider.id, molt_id=molt.id) }}" method="post">
+            <button class="btn danger"
+                    onclick="return confirm('Delete molt?');">🗑 Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+
+  <!-- IMAGES -->
+  <section class="panel">
+    <h2>Images</h2>
+    <a href="{{ url_for('upload_image', spider_id=spider.id) }}" class="btn">📷 Add</a>
+
+    <div class="image-grid">
+      {% for img in images %}
+      <div class="img-card">
+        <img src="{{ url_for('static', filename='images/spiders/' ~ img.image_path) }}"
+             class="spider-img clickable"
+             alt="Spider image">
+
+        <div class="img-overlay">
+          <div class="img-note">{{ img.note or 'No note' }}</div>
+          <div class="img-actions">
+            <a href="{{ url_for('edit_image', spider_id=spider.id, image_id=img.id) }}"
+               class="btn small" style="color: blue;">📖 Edit</a>
+            <form action="{{ url_for('delete_image', spider_id=spider.id, image_id=img.id) }}"
+                  method="post">
+              <button class="btn danger small">🗑 Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer container">
+  <small>
+    Author:
+    <a href="https://github.com/ar3s-xss" target="_blank" rel="noopener noreferrer">
+      ar3s-xss
+    </a>
+  </small>
+</footer>
+
+<!-- IMAGE MODAL -->
+<div id="image-modal" class="img-modal">
+  <span class="img-modal-close">&times;</span>
+  <img id="modal-img" class="img-modal-content">
+</div>
+
+<!-- JS -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("image-modal");
+  const modalImg = document.getElementById("modal-img");
+  const closeBtn = document.querySelector(".img-modal-close");
+
+  document.querySelectorAll(".clickable").forEach(img => {
+    img.addEventListener("click", () => {
+      modal.style.display = "flex";
+      modalImg.src = img.src;
+    });
+  });
+
+  closeBtn.onclick = () => modal.style.display = "none";
+
+  modal.onclick = (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  };
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") modal.style.display = "none";
+  });
+
+});
+</script>
+
+</body>
+</html>

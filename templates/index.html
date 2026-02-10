@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Tarantulas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>My Tarantulas</h1>
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">🕷️ Spiders</a></li>
+            <li><a href="{{ url_for('species') }}">🌍 Species</a></li>
+            <li><a href="{{ url_for('add') }}">🕸️ Add Spider</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+        
+      <section class="panel">
+        <h2>SPIDERS</h2>
+        <a href="{{ url_for('add') }}" class="btn">🕸️ Add Spider</a>
+        <a href="{{ url_for('species') }}" class="btn">🌍 Add Species</a>
+        <ol>
+          {% for spider in spiders %}
+          <li ><a href="/spider/{{ spider[0] }}">{{ spider[1] }}</a> - {{ spider[2] }} - {{ spider[3] }}
+            <form action="{{ url_for('edit', spider_id=spider[0]) }}" method="get" style="display:inline">
+              <button type="submit" class="btn" style="color:blue">📖 Edit</button>
+            </form>
+            <form action="{{ url_for('delete_spider', spider_id=spider[0]) }}" method="post" style="display:inline">
+              <button type="submit" class="btn danger" onclick="return confirm('Delete this molt record?');">❌ Delete</button>
+            </form>
+          </li>
+          
+          {% endfor %}
+        </ol>
+        <!--
+         <table>
+            <tr>
+                <th>ID</th>
+                <th>Spider Name</th>
+                <th>Science Name</th>
+                <th>Gender</th>
+            </tr>
+            {% for spider in spiders %}
+            <tr>
+                <td>{{ spider[0] }}</td>
+                <td>{{ spider[1] }}</td>
+                <td>{{ spider[2] }}</td>
+                <td>{{ spider[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        -->
+      </section>
+      
+      
+    </main>
+
+   <footer class="site-footer container">
+  <small>
+    Author:
+    <a href="https://github.com/ar3s-xss"
+       target="_blank"
+       rel="noopener noreferrer">
+       ar3s-xss
+    </a>
+  </small>
+</footer>
+
+  </body>
+</html>
