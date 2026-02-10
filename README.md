@@ -36,6 +36,5 @@ pip install -r requirements.txt
 #### Add spiders allow you to add your tarantula/s
 ![add spider](https://github.com/ar3s-xss/Spiders/blob/main/images/add_spider.png)
 ### Details of spider
-As mentioned above to access specific tarantulas details click on the **name** of desired tarantula.
-This page allows you to add, modify or delete feeding history, molts and images.
+As mentioned above to access specific tarantulas details click on the **name** of desired tarantula. This page allows you to add, modify or delete feeding history, molts and images.
 ![spider details](https://github.com/ar3s-xss/Spiders/blob/main/images/details_of_spider.png)
