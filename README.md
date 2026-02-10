@@ -14,8 +14,7 @@ pip install -r requirements.txt
     ```
     docker compose up --build -d
     ```
-3.  To access web app type in browser.
-    **localhost:5000** when ran locally or **0[.]0[.]0[.]0:5000** if ran on server.
+3.  To access web app type in browser **localhost:5000** when ran locally or **0[.]0[.]0[.]0:5000** if ran on server.
 4. Stop web app
     ```
     docker compose down
