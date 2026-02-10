@@ -7,8 +7,11 @@ from datetime import datetime
 UPLOAD_FOLDER = 'static/images/spiders'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'heif'}
 
+DB_PATH = "/data/database.db"
+
 def init_db():
-    con = sqlite3.connect('database.db')
+    os.makedirs("/data", exist_ok=True)
+    con = sqlite3.connect(DB_PATH)
     con.execute("PRAGMA foreign_keys = ON")
     cur = con.cursor()
     cur.execute('CREATE TABLE IF NOT EXISTS species (id INTEGER PRIMARY KEY AUTOINCREMENT, science_name TEXT, common_name TEXT, world TEXT, world_type TEXT)')
@@ -20,7 +23,7 @@ def init_db():
     con.close()
 
 def con_db():
-    con = sqlite3.connect('database.db')
+    con = sqlite3.connect(DB_PATH)
     con.execute("PRAGMA foreign_keys = ON")
     con.row_factory = sqlite3.Row
     return con
